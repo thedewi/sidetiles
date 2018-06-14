@@ -101,6 +101,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="WpfAppBar\WpfAppBar\WpfAppBar.csproj">
+      <Project>{86f999c7-4543-41de-8e6d-9ab41ac0ff8e}</Project>
+      <Name>WpfAppBar</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
