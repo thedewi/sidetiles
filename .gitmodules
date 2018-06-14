@@ -1,0 +1,3 @@
+[submodule "WpfAppBar"]
+	path = WpfAppBar
+	url = https://github.com/thedewi/WpfAppBar.git
