@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Markup;
+using CefSharp;
 using WpfAppBar;
+using Path = System.IO.Path;
 
 namespace SideTiles
 {
@@ -28,6 +24,26 @@ namespace SideTiles
         {
             InitializeComponent();
         }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+            foreach (var xamlFilename in GetXamlFilenames())
+            {
+                using (var stream = new FileStream(xamlFilename, FileMode.Open))
+                {
+                    var uiElement = (UIElement) XamlReader.Load(stream);
+                    if (uiElement is IWebBrowser browser
+                        && ReadAllTextOrDefault(xamlFilename + ".js") is string js)
+                    {
+                        browser.FrameLoadEnd += (sender, args) => browser.GetMainFrame().ExecuteJavaScriptAsync(js);
+                    }
+
+                    Grid.Children.Add(uiElement);
+                }
+            }
+        }
+
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
         {
             base.OnMouseDoubleClick(e);
@@ -41,6 +57,30 @@ namespace SideTiles
             base.OnClosing(e);
 
             AppBarFunctions.SetAppBar(this, ABEdge.None);
+        }
+
+        private static IEnumerable<string> GetXamlFilenames()
+        {
+            var dataPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Assembly.GetExecutingAssembly().GetName().Name
+            );
+            if (!Directory.Exists(dataPath))
+                yield break;
+            foreach (var xamlFilename in Directory.GetFiles(dataPath, @"*.xaml").OrderBy(fn => fn))
+                yield return xamlFilename;
+        }
+
+        private static string ReadAllTextOrDefault(string path)
+        {
+            try
+            {
+                return File.ReadAllText(path);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
