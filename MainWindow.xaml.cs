@@ -23,6 +23,7 @@ namespace SideTiles
         public MainWindow()
         {
             InitializeComponent();
+            ShowInTaskbar = false;
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -81,6 +82,11 @@ namespace SideTiles
             {
                 return null;
             }
+        }
+
+        private void TaskbarIcon_OnTrayLeftMouseDown(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
