@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
-        Title="SideTiles" Height="540" Width="320" Background="Black">
+        Title="SideTiles" Height="540" Width="280" Background="Black">
     <Grid>
         <tb:TaskbarIcon IconSource="SideTiles.ico" TrayLeftMouseDown="TaskbarIcon_OnTrayLeftMouseDown" />
         <UniformGrid Name="Grid" Columns="1" />
