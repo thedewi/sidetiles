@@ -1,0 +1,1 @@
+<ChromiumWebBrowser xmlns="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="Browser" Address="https://bloodcontrol.azurewebsites.net/" Height="640" VerticalAlignment="Top" />
